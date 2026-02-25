@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gà Blog - Cẩm Nang Nhà Nông</title>
+<style>
+:root {
+--bg: #fffdf5;
+--primary: #ff9800;
+--secondary: #ffc107;
+--accent: #fff3cd;
+--text: #444;
+}
+
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background-color: var(--bg);
+margin: 0;
+overflow-y: auto;
+color: var(--text);
+line-height: 1.6;
+}
+
+/* --- PHẦN HEADER: Sẽ cuộn mất khi kéo xuống --- */
+header {
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                url('https://m.media-amazon.com/images/I/711v7R6Ke6L._AC_UF894,1000_QL80_.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 60px 20px;
+    text-align: center;
+    position: relative;
+    border-bottom: 5px solid var(--primary);
+}
+
+/* --- PHẦN NAVIGATION: Sẽ dính lại (Sticky) --- */
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 15px;
+    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.nav-btn {
+padding: 10px 22px;
+border: 2px solid transparent;
+background: white;
+color: var(--primary);
+border-radius: 30px;
+cursor: pointer;
+font-weight: bold;
+transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+font-size: 0.9rem;
+box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.nav-btn:hover {
+transform: translateY(-3px);
+box-shadow: 0 6px 15px rgba(255, 152, 0, 0.2);
+border-color: var(--primary);
+}
+
+.nav-btn.active {
+background: var(--primary);
+color: white;
+transform: translateY(-2px);
+box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+}
+
+/* --- BỐ CỤC NỘI DUNG --- */
+.content-container {
+max-width: 750px;
+margin: 30px auto;
+padding: 0 20px;
+}
+
+.tab-panel {
+display: none;
+animation: fadeIn 0.5s ease;
+}
+
+.tab-panel.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+.post-card {
+background: white;
+border-radius: 20px;
+padding: 20px;
+margin-bottom: 25px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+border: 1px solid #f0f0f0;
+transition: 0.3s;
+}
+.post-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+
+.post-card h3 {
+margin: 0 0 15px 0; color: #d35400;
+font-size: 1.2rem; border-left: 5px solid var(--primary); padding-left: 12px;
+}
+
+.small-img {
+width: 130px; height: 130px;
+object-fit: cover;
+border-radius: 18px;
+float: left;
+margin: 0 18px 10px 0;
+border: 3px solid var(--accent);
+transition: 0.3s;
+}
+
+.post-card:hover .small-img { transform: rotate(-2deg) scale(1.05); }
+
+.post-content { font-size: 0.95rem; text-align: justify; }
+.post-content::after { content: ""; display: table; clear: both; }
+
+/* Gà bay nền */
+.flying-chicken {
+position: fixed; font-size: 2rem; z-index: -1;
+pointer-events: none; animation: fly linear infinite;
+opacity: 0.4;
+}
+@keyframes fly {
+0% { transform: translate(-100px, 100vh); }
+100% { transform: translate(100vw, -100px) rotate(360deg); }
+}
+
+footer { text-align: center; padding: 40px; color: #999; font-size: 0.8rem; border-top: 1px dashed #ddd; margin-top: 50px; }
+</style>
+</head>
+<body>
+
+<div class="flying-chicken" style="left:10%; animation-duration: 15s;">🐔</div>
+<div class="flying-chicken" style="left:75%; animation-duration: 22s; animation-delay: 5s;">🐥</div>
+
+<header>
+    <div style="
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        display: inline-block;
+        padding: 25px 40px;
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    ">
+        <h1 style="margin: 0; font-size: 2.2rem; color: #fff; text-transform: uppercase; letter-spacing: 3px; font-weight: 900; text-shadow: 2px 4px 6px rgba(0,0,0,0.3);">
+            <span style="font-size: 3rem;">🐔</span> GÀ VÀ GÀ
+        </h1>
+        <p style="color: #fff; margin: 10px 0 0; font-style: italic; font-weight: 300; letter-spacing: 1px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">
+            "Kiến thức vàng cho đàn gà bạc tỷ"
+        </p>
+    </div>
+</header>
+
+<nav>
+<button class="nav-btn active" onclick="openTab(this, 'tab1')">Giống Gà</button>
+<button class="nav-btn" onclick="openTab(this, 'tab2')">Kỹ Thuật Nuôi</button>
+<button class="nav-btn" onclick="openTab(this, 'tab3')">Dinh Dưỡng</button>
+<button class="nav-btn" onclick="openTab(this, 'tab4')">Mẹo Phòng Bệnh</button>
+</nav>
+
+<div class="content-container">
+
+<div id="tab1" class="tab-panel active">
+<div class="post-card">
+<h3>Gà Ri - Đặc Sản Đất Việt</h3>
+<div class="post-content">
+<img src="https://nguoichannuoi.vn/wp-content/uploads/2025/01/cao-khanh-4.webp?w=400" class="small-img">
+Gà Ri có vóc dáng nhỏ nhưng thịt cực chắc và thơm. Đây là giống gà bản địa có sức đề kháng tuyệt vời, phù hợp với khí hậu nóng ẩm của Việt Nam. Người nuôi gà Ri thường thu lãi tốt vì chi phí thức ăn thấp và giá bán thịt thương phẩm luôn ở mức cao.
+</div>
+</div>
+<div class="post-card">
+<h3>Gà H'Mông - "Siêu Thực Phẩm" Đen</h3>
+<div class="post-content">
+<img src="https://chungchon.com.vn/wp-content/uploads/2024/06/8c2221db-ga-hmong-dai-dien-e1718424031704.jpg?w=400" class="small-img">
+Nổi tiếng với xương đen, thịt đen, gà H'Mông không chỉ là món ăn ngon mà còn là bài thuốc quý. Giống gà này thường được nuôi ở vùng núi cao nhưng hiện nay đã được thích nghi ở vùng đồng bằng nhờ kỹ thuật chăn thả tự nhiên.
+</div>
+</div>
+<div class="post-card">
+<h3>Gà Lơ-go (Leghorn) Siêu Trứng</h3>
+<div class="post-content">
+<img src="https://trithucnhanong.com/uploads/source/cac-giong-nuoi/ga/giong-ga-leghorn.webp?w=400" class="small-img">
+Nếu bạn muốn làm kinh tế từ trứng, đây là lựa chọn số 1. Một con gà Lơ-go có thể đẻ tới 280-300 quả trứng mỗi năm. Chúng nhỏ nhắn, ăn ít nhưng hiệu quả sản xuất cực kỳ đáng nể.
+</div>
+</div>
+</div>
+
+<div id="tab2" class="tab-panel">
+<div class="post-card">
+<h3>Úm Gà Con Giai Đoạn Vàng</h3>
+<div class="post-content">
+<img src="https://traigiongthuha.com/uploads/cache/news/news_522.jpg?w=400" class="small-img">
+Tuần đầu tiên là quan trọng nhất. Nhiệt độ chuồng úm cần duy trì ổn định ở mức 32-34 độ C. Hãy quan sát: nếu gà chụm lại dưới đèn là lạnh, tản ra xa là nóng, và đi lại tung tăng là nhiệt độ vừa đủ.
+</div>
+</div>
+<div class="post-card">
+<h3>Thiết Kế Chuồng Trại Thoáng Mát</h3>
+<div class="post-content">
+<img src="https://channuoithuy.com.vn/wp-content/uploads/2023/04/cach-thiet-ke-chuong-ga.jpg?w=400" class="small-img">
+Hướng chuồng tốt nhất là hướng Đông Nam để đón gió mát và ánh nắng ban mai. Nắng sáng giúp gà tổng hợp Vitamin D, diệt khuẩn chuồng trại tự nhiên. Nền chuồng nên cao ráo để tránh ngập lụt.
+</div>
+</div>
+<div class="post-card">
+<h3>Mật Độ Nuôi Hợp Lý</h3>
+<div class="post-content">
+<img src="https://www.vietstock.org/wp-content/uploads/2024/11/kham-pha-cac-giong-ga-pho-bien-trong-chan-nuoi-5-min.jpg?w=400" class="small-img">
+Đừng tham nuôi quá dày! Đối với gà thả vườn, mật độ trong chuồng khoảng 7-10 con/m2 là hợp lý. Nuôi quá dày dễ dẫn đến tình trạng gà cắn mổ nhau và dịch bệnh lây lan nhanh chóng.
+</div>
+</div>
+</div>
+
+<div id="tab3" class="tab-panel">
+<div class="post-card">
+<h3>Công Thức Phối Trộn Thức Ăn</h3>
+<div class="post-content">
+<img src="https://congcutot.vn/uploads/store/page/article/2024/02/phan-loai-thuc-an.jpg?w=400" class="small-img">
+Để tiết kiệm chi phí, bạn có thể trộn theo tỉ lệ: 50% bắp hạt nghiền, 20% cám gạo, 20% đậu nành rang và 10% bột cá/ốc. Cách này giúp gà chắc thịt và có mùi vị thơm ngon hơn hẳn cám công nghiệp.
+</div>
+</div>
+<div class="post-card">
+<h3>Rau Xanh - Vitamin Thiên Nhiên</h3>
+<div class="post-content">
+<img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400" class="small-img">
+Bèo hoa dâu, rau muống hay thân chuối băm là những nguồn chất xơ tuyệt vời. Chúng không chỉ giúp gà tiêu hóa tốt mà còn làm cho màu lòng đỏ trứng trở nên đậm đà và đẹp mắt hơn.
+</div>
+</div>
+</div>
+
+<div id="tab4" class="tab-panel">
+<div class="post-card">
+<h3>Dùng Gừng Và Tỏi Giải Cảm</h3>
+<div class="post-content">
+<img src="https://cdn.tgdd.vn/Files/2018/09/11/1116656/ruou-toi-giup-keo-dai-tuoi-tho-va-day-la-cach-ngam-ruou-toi-chuan-nhat-201907072012018158.jpg?w=400" class="small-img">
+Thay vì lạm dụng kháng sinh, hãy giã nát gừng và tỏi ngâm rượu để pha vào nước uống hoặc trộn vào thức ăn hàng tuần. Đây là cách tăng sức đề kháng cực kỳ hiệu quả khi thời tiết thay đổi đột ngột.
+</div>
+</div>
+<div class="post-card">
+<h3>Vệ Sinh Bằng Đệm Lót Sinh Học</h3>
+<div class="post-content">
+<img src="https://chephamvisinh.vn/wp-content/uploads/2020/07/dem-lot-sinh-hoc-la-gi-va-cong-dung.jpg?w=400" class="small-img">
+Sử dụng trấu trộn với men vi sinh Balasa giúp phân hủy phân gà ngay tại nền chuồng. Bạn sẽ không còn phải lo lắng về mùi hôi, đồng thời tạo ra nguồn phân hữu cơ cực tốt cho cây trồng sau này.
+</div>
+</div>
+<div class="post-card">
+<h3>Mẹo Trị Gà Cắn Mổ Nhau</h3>
+<div class="post-content">
+<img src="https://gachoi.com.vn/wp-content/uploads/2021/01/thu-choi-ga-choi-dan-gian.jpg?w=400" class="small-img">
+Khi thấy gà có hiện tượng cắn mổ lông nhau, hãy bổ sung thêm muối ăn và khoáng chất vào khẩu phần. Ngoài ra, việc treo những bó rau xanh lơ lửng cũng giúp gà tập trung mổ rau thay vì mổ nhau.
+</div>
+</div>
+</div>
+
+</div>
+
+<footer>
+<p>© Gà và gà. Chúc đàn gà nhà bạn luôn khỏe mạnh!</p>
+</footer>
+
+<script>
+function openTab(btn, tabId) {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+
+    // Cuộn mượt về ngay vị trí thanh menu khi đổi tab
+    const navPos = document.querySelector('nav').offsetTop;
+    window.scrollTo({top: navPos, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>
+
